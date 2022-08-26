@@ -2,7 +2,7 @@ const express = require('express');
 
 const generateToken = require('../utils/generateToken');
 
-const { emailValidation, passwordValidation } = require('../middlewares/validations');
+const { emailValidation, passwordValidation } = require('../middlewares/validationsLogin');
 
 const loginRouter = express.Router();
 
