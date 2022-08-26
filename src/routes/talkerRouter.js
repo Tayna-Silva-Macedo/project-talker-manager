@@ -54,7 +54,36 @@ talkerRouter.post(
     const newTalkerFile = [...talkers, { ...newTalker, id: lastId + 1 }];
     await readAndWrite.setTalkerFile(newTalkerFile);
 
-    res.status(201).json({ ...newTalker, id: lastId + 1 });
+    return res.status(201).json({ ...newTalker, id: lastId + 1 });
+  },
+);
+
+talkerRouter.put(
+  '/:id',
+  authValidation,
+  nameValidation,
+  ageValidation,
+  talkFieldsValidation,
+  watchedAtValidation,
+  rateValidation,
+  async (req, res) => {
+    const id = Number(req.params.id);
+
+    const talkers = await readAndWrite.getAllTalkers();
+
+    const talkerToUpdate = talkers.find((talker) => talker.id === Number(id));
+
+    if (talkerToUpdate) {
+      const index = talkers.indexOf(talkerToUpdate);
+      const updated = { id, ...req.body };
+      talkers.splice(index, 1, updated);
+
+      await readAndWrite.setTalkerFile(talkers);
+
+      return res.status(200).json(updated);
+    }
+
+    return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
   },
 );
 

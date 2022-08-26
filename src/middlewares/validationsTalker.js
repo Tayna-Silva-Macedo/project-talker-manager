@@ -55,7 +55,7 @@ const talkFieldsValidation = (req, res, next) => {
       .json({ message: 'O campo "watchedAt" é obrigatório' });
   }
 
-  if (!talk.rate) {
+  if (talk.rate === undefined) {
     return res.status(400).json({ message: 'O campo "rate" é obrigatório' });
   }
 
