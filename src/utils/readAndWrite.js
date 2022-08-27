@@ -30,6 +30,15 @@ const getTalkerById = async (id) => {
   return talkerSearch;
 };
 
+const getTalkerByQuery = async (q) => {
+  const talkers = await getAllTalkers();
+
+  const filteredTalkers = talkers.filter((talker) =>
+    talker.name.toLowerCase().includes(q.toLowerCase()));
+
+  return filteredTalkers;
+};
+
 const updateTalker = async (id, newInfo) => {
   const talkers = await getAllTalkers();
 
@@ -66,9 +75,10 @@ const deleteTalker = async (id) => {
 };
 
 module.exports = {
+  setTalkerFile,
   getAllTalkers,
   getTalkerById,
-  setTalkerFile,
+  getTalkerByQuery,
   updateTalker,
   deleteTalker,
 };

@@ -22,12 +22,9 @@ talkerRouter.get('/', async (req, res) => {
 talkerRouter.get('/search', authValidation, async (req, res) => {
   const { q } = req.query;
 
-  const talkers = await readAndWrite.getAllTalkers();
+  const filteredTalkers = await readAndWrite.getTalkerByQuery(q); 
 
-  const filteredTalkers = talkers.filter((talker) =>
-    talker.name.toLowerCase().includes(q.toLowerCase()));
-
-  res.status(200).json(filteredTalkers);
+  return res.status(200).json(filteredTalkers);
 });
 
 talkerRouter.get('/:id', async (req, res) => {
