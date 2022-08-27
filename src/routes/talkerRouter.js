@@ -22,7 +22,7 @@ talkerRouter.get('/', async (req, res) => {
 talkerRouter.get('/search', authValidation, async (req, res) => {
   const { q } = req.query;
 
-  const filteredTalkers = await readAndWrite.getTalkerByQuery(q); 
+  const filteredTalkers = await readAndWrite.getTalkerByQuery(q);
 
   return res.status(200).json(filteredTalkers);
 });
@@ -38,53 +38,43 @@ talkerRouter.get('/:id', async (req, res) => {
   return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
 });
 
-talkerRouter.post(
-  '/',
-  authValidation,
-  nameValidation,
-  ageValidation,
-  talkFieldsValidation,
-  watchedAtValidation,
-  rateValidation,
-  async (req, res) => {
-    const newTalkerInfo = req.body;
+talkerRouter.use(authValidation);
 
-    const newTalkerObj = await readAndWrite.insertTalker(newTalkerInfo);
-
-    return res.status(201).json(newTalkerObj);
-  },
-);
-
-talkerRouter.put(
-  '/:id',
-  authValidation,
-  nameValidation,
-  ageValidation,
-  talkFieldsValidation,
-  watchedAtValidation,
-  rateValidation,
-  async (req, res) => {
-    const id = Number(req.params.id);
-
-    const updated = await readAndWrite.updateTalker(id, req.body);
-
-    if (updated) {
-      return res.status(200).json(updated);
-    }
-
-    return res
-      .status(404)
-      .json({ message: 'Pessoa palestrante não encontrada' });
-  },
-);
-
-talkerRouter.delete('/:id', authValidation, async (req, res) => {
+talkerRouter.delete('/:id', async (req, res) => {
   const id = Number(req.params.id);
 
   const deleted = await readAndWrite.deleteTalker(id);
 
   if (deleted) {
     return res.status(204).end();
+  }
+
+  return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+});
+
+talkerRouter.use(
+  nameValidation,
+  ageValidation,
+  talkFieldsValidation,
+  watchedAtValidation,
+  rateValidation,
+);
+
+talkerRouter.post('/', async (req, res) => {
+  const newTalkerInfo = req.body;
+
+  const newTalkerObj = await readAndWrite.insertTalker(newTalkerInfo);
+
+  return res.status(201).json(newTalkerObj);
+});
+
+talkerRouter.put('/:id', async (req, res) => {
+  const id = Number(req.params.id);
+
+  const updated = await readAndWrite.updateTalker(id, req.body);
+
+  if (updated) {
+    return res.status(200).json(updated);
   }
 
   return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
