@@ -79,30 +79,25 @@ talkerRouter.put(
   rateValidation,
   async (req, res) => {
     const id = Number(req.params.id);
-    
+
     const updated = await readAndWrite.updateTalker(id, req.body);
-    
+
     if (updated) {
       return res.status(200).json(updated);
     }
 
-    return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+    return res
+      .status(404)
+      .json({ message: 'Pessoa palestrante não encontrada' });
   },
 );
 
 talkerRouter.delete('/:id', authValidation, async (req, res) => {
   const id = Number(req.params.id);
 
-  const talkers = await readAndWrite.getAllTalkers();
+  const deleted = await readAndWrite.deleteTalker(id);
 
-  const talkerToDelete = talkers.find((talker) => talker.id === id);
-
-  if (talkerToDelete) {
-    const index = talkers.indexOf(talkerToDelete);
-    talkers.splice(index, 1);
-
-    await readAndWrite.setTalkerFile(talkers);
-
+  if (deleted) {
     return res.status(204).end();
   }
 

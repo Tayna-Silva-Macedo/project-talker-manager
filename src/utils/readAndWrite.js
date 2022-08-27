@@ -31,21 +31,38 @@ const getTalkerById = async (id) => {
 };
 
 const updateTalker = async (id, newInfo) => {
-    const talkers = await getAllTalkers();
+  const talkers = await getAllTalkers();
 
-    const talkerToUpdate = await getTalkerById(id);
+  const talkerToUpdate = await getTalkerById(id);
 
-    if (talkerToUpdate) {
-      const index = talkers.indexOf(talkerToUpdate);
-      const updated = { id, ...newInfo };
-      talkers.splice(index, 1, updated);
+  if (talkerToUpdate) {
+    const index = talkers.indexOf(talkerToUpdate);
+    const updated = { id, ...newInfo };
+    talkers.splice(index, 1, updated);
 
-      await setTalkerFile(talkers);
+    await setTalkerFile(talkers);
 
-      return updated;
-    }
+    return updated;
+  }
 
-    return false;
+  return false;
+};
+
+const deleteTalker = async (id) => {
+  const talkers = await getAllTalkers();
+
+  const talkerToDelete = await getTalkerById(id);
+
+  if (talkerToDelete) {
+    const index = talkers.indexOf(talkerToDelete);
+    talkers.splice(index, 1);
+
+    await setTalkerFile(talkers);
+
+    return true;
+  }
+
+  return false;
 };
 
 module.exports = {
@@ -53,4 +70,5 @@ module.exports = {
   getTalkerById,
   setTalkerFile,
   updateTalker,
+  deleteTalker,
 };
