@@ -24,6 +24,7 @@ const nameValidation = (req, res, next) => {
       .status(400)
       .json({ message: 'O "name" deve ter pelo menos 3 caracteres' });
   }
+
   next();
 };
 
@@ -39,6 +40,7 @@ const ageValidation = (req, res, next) => {
       .status(400)
       .json({ message: 'A pessoa palestrante deve ser maior de idade' });
   }
+  
   next();
 };
 
