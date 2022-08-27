@@ -1,10 +1,11 @@
 const fs = require('fs').promises;
+const { join } = require('path');
 
-const path = 'src/talker.json';
+const path = '../talker.json';
 
 const readTalkerFile = async () => {
   try {
-    const contentFile = await fs.readFile(path, 'utf-8');
+    const contentFile = await fs.readFile(join(__dirname, path), 'utf-8');
 
     return JSON.parse(contentFile);
   } catch (error) {
@@ -26,7 +27,7 @@ const getTalkerById = async (id) => {
 };
 
 const setTalkerFile = async (talkers) => {
-  await fs.writeFile(path, JSON.stringify(talkers));
+  await fs.writeFile(join(__dirname, path), JSON.stringify(talkers));
 };
 
 module.exports = {
