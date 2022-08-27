@@ -79,18 +79,10 @@ talkerRouter.put(
   rateValidation,
   async (req, res) => {
     const id = Number(req.params.id);
-
-    const talkers = await readAndWrite.getAllTalkers();
-
-    const talkerToUpdate = talkers.find((talker) => talker.id === id);
-
-    if (talkerToUpdate) {
-      const index = talkers.indexOf(talkerToUpdate);
-      const updated = { id, ...req.body };
-      talkers.splice(index, 1, updated);
-
-      await readAndWrite.setTalkerFile(talkers);
-
+    
+    const updated = await readAndWrite.updateTalker(id, req.body);
+    
+    if (updated) {
       return res.status(200).json(updated);
     }
 

@@ -6,7 +6,7 @@ const { emailValidation, passwordValidation } = require('../middlewares/validati
 
 const loginRouter = express.Router();
 
-loginRouter.post('/', emailValidation, passwordValidation, (req, res) => {
+loginRouter.post('/', emailValidation, passwordValidation, (_req, res) => {
   const token = generateToken();
 
   return res.status(200).json({ token });

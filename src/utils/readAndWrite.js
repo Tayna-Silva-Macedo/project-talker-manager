@@ -13,6 +13,10 @@ const readTalkerFile = async () => {
   }
 };
 
+const setTalkerFile = async (talkers) => {
+  await fs.writeFile(join(__dirname, path), JSON.stringify(talkers));
+};
+
 const getAllTalkers = async () => {
   const talkers = await readTalkerFile();
 
@@ -26,12 +30,27 @@ const getTalkerById = async (id) => {
   return talkerSearch;
 };
 
-const setTalkerFile = async (talkers) => {
-  await fs.writeFile(join(__dirname, path), JSON.stringify(talkers));
+const updateTalker = async (id, newInfo) => {
+    const talkers = await getAllTalkers();
+
+    const talkerToUpdate = await getTalkerById(id);
+
+    if (talkerToUpdate) {
+      const index = talkers.indexOf(talkerToUpdate);
+      const updated = { id, ...newInfo };
+      talkers.splice(index, 1, updated);
+
+      await setTalkerFile(talkers);
+
+      return updated;
+    }
+
+    return false;
 };
 
 module.exports = {
   getAllTalkers,
   getTalkerById,
   setTalkerFile,
+  updateTalker,
 };
