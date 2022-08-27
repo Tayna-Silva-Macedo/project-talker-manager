@@ -47,22 +47,11 @@ talkerRouter.post(
   watchedAtValidation,
   rateValidation,
   async (req, res) => {
-    const newTalker = req.body;
+    const newTalkerInfo = req.body;
 
-    const talkers = await readAndWrite.getAllTalkers();
-    let lastId;
+    const newTalkerObj = await readAndWrite.insertTalker(newTalkerInfo);
 
-    if (talkers.length === 0) {
-      lastId = 0;
-    } else {
-      const lastTalker = talkers[talkers.length - 1];
-      lastId = lastTalker.id;
-    }
-
-    const newTalkerFile = [...talkers, { ...newTalker, id: lastId + 1 }];
-    await readAndWrite.setTalkerFile(newTalkerFile);
-
-    return res.status(201).json({ ...newTalker, id: lastId + 1 });
+    return res.status(201).json(newTalkerObj);
   },
 );
 

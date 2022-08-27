@@ -39,6 +39,23 @@ const getTalkerByQuery = async (q) => {
   return filteredTalkers;
 };
 
+const insertTalker = async (newTalker) => {
+  const talkers = await getAllTalkers();
+  let lastId;
+
+  if (talkers.length === 0) {
+    lastId = 0;
+  } else {
+    const lastTalker = talkers[talkers.length - 1];
+    lastId = lastTalker.id;
+  }
+
+  const newTalkerFile = [...talkers, { ...newTalker, id: lastId + 1 }];
+  await setTalkerFile(newTalkerFile);
+
+  return { ...newTalker, id: lastId + 1 };
+};
+
 const updateTalker = async (id, newInfo) => {
   const talkers = await getAllTalkers();
 
@@ -79,6 +96,7 @@ module.exports = {
   getAllTalkers,
   getTalkerById,
   getTalkerByQuery,
+  insertTalker,
   updateTalker,
   deleteTalker,
 };
