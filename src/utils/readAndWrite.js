@@ -62,7 +62,7 @@ const updateTalker = async (id, newInfo) => {
   const talkerToUpdate = await getTalkerById(id);
 
   if (talkerToUpdate) {
-    const index = talkers.indexOf(talkerToUpdate);
+    const index = talkers.findIndex((talker) => talker.id === talkerToUpdate.id);
     const updated = { id, ...newInfo };
     talkers.splice(index, 1, updated);
 
