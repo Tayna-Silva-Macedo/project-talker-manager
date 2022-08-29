@@ -80,7 +80,7 @@ const deleteTalker = async (id) => {
   const talkerToDelete = await getTalkerById(id);
 
   if (talkerToDelete) {
-    const index = talkers.indexOf(talkerToDelete);
+    const index = talkers.findIndex((talker) => talker.id === talkerToDelete.id);
     talkers.splice(index, 1);
 
     await setTalkerFile(talkers);
