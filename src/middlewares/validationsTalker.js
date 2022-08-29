@@ -5,7 +5,9 @@ const authValidation = (req, res, next) => {
     return res.status(401).json({ message: 'Token não encontrado' });
   }
 
-  if (authorization.length !== 16) {
+  const regexTokenValidation = /^([a-zA-Z\d]){16}$/g;
+
+  if (!regexTokenValidation.test(authorization)) {
     return res.status(401).json({ message: 'Token inválido' });
   }
 
@@ -40,7 +42,7 @@ const ageValidation = (req, res, next) => {
       .status(400)
       .json({ message: 'A pessoa palestrante deve ser maior de idade' });
   }
-  
+
   next();
 };
 
