@@ -7,5 +7,4 @@ O Talker Manager é uma aplicação de cadastro de palestrantes em que é possí
 
   - Uma API de um CRUD (Create, Read, Update e Delete) de palestrantes;
   - Endpoints que lêem e escrevem em um arquivo utilizando o módulo fs;
-  - Middlewares que realizam verificações dos dados enviados nas requisições;
- 
+  - Middlewares que realizam verificações dos dados enviados nas requisições; 
